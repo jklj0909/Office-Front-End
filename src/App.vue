@@ -1,15 +1,18 @@
 <template>
-  <div id="app">
-  </div>
+    <div id="app">
+        <Main/>
+    </div>
 </template>
 
 <script>
+    import Main from './views/main/Main'
 
-export default {
-  name: 'App',
-  components: {
-  }
-}
+    export default {
+        name: 'App',
+        components: {
+            Main
+        }
+    }
 </script>
 
 <style>
