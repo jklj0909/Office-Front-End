@@ -8,9 +8,12 @@
                         <div class="layout-logo">Office自动判卷系统</div>
                     </a>
                     <div class="layout-nav">
-                        <div class="layout-nav-buttons" v-show="isLogin===false">
+                        <div class="layout-nav-buttons" v-show="$store.state.user.isLogin==false">
                             <Button @click="goToRegister">注册</Button>
                             <Button type="primary" @click="goToLogin">登录</Button>
+                        </div>
+                        <div class="layout-nav-buttons" v-show="$store.state.user.isLogin==true">
+                            <dropdown-button :username="$store.state.user.username"/>
                         </div>
                     </div>
                 </Menu>
@@ -21,13 +24,13 @@
                 <Sider hide-trigger :style="{background: '#fff'}">
                     <Menu theme="light" width="auto">
                         <Submenu :name="item.name" v-for="(item,index) in slider" :key="index"
-                                 v-show="isLogin==item.requireLogin">
+                                 v-show="$store.state.user.isLogin==true||item.requireLogin==false">
                             <template slot="title">
                                 <Icon :type="item.iconType"></Icon>
                                 {{item.content}}
                             </template>
                             <MenuItem :name="itemList.name" v-for="(itemList,i) in item.childList" :key="i"
-                                      v-show="isLogin==itemList.requireLogin" :to="itemList.link">
+                                      v-show="$store.state.user.isLogin==itemList.requireLogin" :to="itemList.link">
                                 {{itemList.content}}
                             </MenuItem>
                         </Submenu>
@@ -50,25 +53,27 @@
 </template>
 
 <script>
+    import DropdownButton from 'components/content/main/outer/DropdownButton';
+    import {request} from 'network/student';
+
     export default {
         name: "Main",
+        components: {
+            DropdownButton
+        },
         data() {
             return {
                 slider: [
                     {
-                        childList: [{
-                            name: 'register',
-                            content: '注册',
-                            requireLogin: false,
-                            link: '/profile/register'
-                        }, {name: 'login', content: '登录', requireLogin: false, link: '/profile/login'}],
+                        childList: [{name: 'register', content: '注册', requireLogin: false, link: '/profile/register'},
+                            {name: 'login', content: '登录', requireLogin: false, link: '/profile/login'},
+                            {name: 'info', content: '个人信息', requireLogin: true, link: '/profile/info'}],
                         iconType: 'md-person',
                         content: '账户',
                         name: 'profile',
                         requireLogin: false
                     }
                 ],
-                isLogin: false
             }
         },
         computed: {
@@ -85,8 +90,21 @@
             },
             goToLogin() {
                 this.$router.push('/profile/login');
+            },
+            sayHello() {
+                console.log("hello");
             }
         },
+        created() {
+            request({
+                url: '/student/checkLogin',
+                method: "get"
+            }).then(({data}) => {
+                this.$store.commit("afterLogin", data.info);
+            }).catch(() => {
+                this.$router.push('/profile/login');
+            })
+        }
     }
 </script>
 <style scoped>

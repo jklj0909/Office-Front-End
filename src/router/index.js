@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location, onResolve, onReject) {
     if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject);
@@ -8,6 +9,7 @@ Router.prototype.push = function push(location, onResolve, onReject) {
 const Index = () => import('views/main/content/index');
 const Login = () => import('views/main/content/user/Login');
 const Register = () => import('views/main/content/user/Register');
+const UserInfo = () => import('views/main/content/user/UserInfo');
 Vue.use(Router);
 
 const routes = [
@@ -26,6 +28,10 @@ const routes = [
     {
         path: '/profile/register',
         component: Register
+    },
+    {
+        path: '/profile/info',
+        component: UserInfo
     }
 ];
 const router = new Router({
