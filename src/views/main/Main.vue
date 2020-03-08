@@ -13,7 +13,8 @@
                             <Button type="primary" @click="goToLogin">登录</Button>
                         </div>
                         <div class="layout-nav-buttons" v-show="$store.state.user.isLogin==true">
-                            <dropdown-button :username="$store.state.user.username"/>
+                            <dropdown-button @dropdownClick="dropdownClick"
+                                             :username="$store.state.user.username"/>
                         </div>
                     </div>
                 </Menu>
@@ -91,8 +92,21 @@
             goToLogin() {
                 this.$router.push('/profile/login');
             },
-            sayHello() {
-                console.log("hello");
+            logout() {
+                request({
+                    url: "/student/logout",
+                    method: "post",
+                }).then(() => {
+                    this.$Message.success("退出登录");
+                }).catch(() => {
+                });
+                this.$store.commit("logout");
+                this.$router.push("/profile/login");
+            },
+            dropdownClick(name) {
+                if (name == "logout") {
+                    this.logout();
+                }
             }
         },
         created() {
