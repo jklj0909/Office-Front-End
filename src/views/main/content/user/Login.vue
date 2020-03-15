@@ -90,7 +90,10 @@
                     }
                 })
             },
-        }
+        },
+        created() {
+            this.$store.commit("updateBreadcrumbItems", ['个人', '登录']);
+        },
     }
 </script>
 <style scoped>

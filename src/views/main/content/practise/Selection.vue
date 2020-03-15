@@ -1,20 +1,18 @@
 <template>
     <div>
-        <h2>
-            个人信息
-        </h2>
+        Selection
     </div>
 </template>
 
 <script>
     export default {
-        name: "UserInfo",
+        name: "Selection",
         data() {
             return {}
         },
         created() {
-            this.$store.commit("updateBreadcrumbItems", ['个人', '信息']);
-        }
+            this.$store.commit("updateBreadcrumbItems", ['练习', '选择题']);
+        },
     }
 </script>
 <style scoped>

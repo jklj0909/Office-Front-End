@@ -64,6 +64,7 @@
         },
         data() {
             return {
+                isShow: true,
                 slider: [
                     {
                         childList: [{name: 'register', content: '注册', requireLogin: false, link: '/profile/register'},
@@ -73,13 +74,21 @@
                         content: '账户',
                         name: 'profile',
                         requireLogin: false
+                    },
+                    {
+                        childList: [{name: 'selection', content: '选择题', requireLogin: true, link: '/practise/selection'},
+                            {name: 'operation', content: '操作题', requireLogin: true, link: '/practise/operation'}],
+                        iconType: 'md-create',
+                        content: '练习',
+                        name: 'practise',
+                        requireLogin: true
                     }
                 ],
             }
         },
         computed: {
             breadcrumbItems() {
-                return this.$route.path.split('/');
+                return this.$store.state.breadcrumbItems;
             }
         },
         methods: {
@@ -109,15 +118,27 @@
                 }
             }
         },
-        created() {
-            request({
-                url: '/student/checkLogin',
-                method: "get"
-            }).then(({data}) => {
-                this.$store.commit("afterLogin", data.info);
-            }).catch(() => {
-                this.$router.push('/profile/login');
-            })
+        mounted() {
+            const requireNoLoginList = ['/profile/login'];
+            this.$router.onReady(() => {
+                if (requireNoLoginList.indexOf(this.$route.path) == -1) {
+                    this.isShow = false;
+                    this.$Spin.show();
+                    request({
+                        url: '/student/checkLogin',
+                        method: "get"
+                    }).then(({data}) => {
+                        this.$store.commit("afterLogin", data.info);
+                        this.isShow = true;
+                        this.$Spin.hide();
+                    }).catch(() => {
+                        this.$Message.error("请登录后再尝试操作");
+                        this.$router.push('/profile/login');
+                        this.isShow = true;
+                        this.$Spin.hide();
+                    });
+                }
+            });
         }
     }
 </script>

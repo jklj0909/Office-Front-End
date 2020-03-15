@@ -9,6 +9,9 @@
         name: "index",
         data() {
             return {}
+        },
+        created() {
+            this.$store.commit("updateBreadcrumbItems", ['首页']);
         }
     }
 </script>

@@ -60,6 +60,9 @@
                 }
             }
         },
+        created() {
+            this.$store.commit("updateBreadcrumbItems", ['个人', '注册']);
+        },
         methods: {
             register(name, password, mail) {
                 return request({

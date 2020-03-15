@@ -8,7 +8,8 @@ const store = new VueX.Store({
             isLogin: false,
             username: "",
             email: ""
-        }
+        },
+        breadcrumbItems: []
     },
     mutations: {
         afterLogin(state, info) {
@@ -20,6 +21,9 @@ const store = new VueX.Store({
             state.user.isLogin = false;
             state.user.username = "";
             state.user.email = ""
+        },
+        updateBreadcrumbItems(state, info) {
+            state.breadcrumbItems = info;
         }
     }
 });

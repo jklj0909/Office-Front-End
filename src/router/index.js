@@ -10,6 +10,9 @@ const Index = () => import('views/main/content/index');
 const Login = () => import('views/main/content/user/Login');
 const Register = () => import('views/main/content/user/Register');
 const UserInfo = () => import('views/main/content/user/UserInfo');
+const Operation = () => import('views/main/content/practise/Operation');
+const Selection = () => import('views/main/content/practise/Selection');
+const OperationSingle = () => import('views/main/content/practise/single/OperationSingle');
 Vue.use(Router);
 
 const routes = [
@@ -32,6 +35,18 @@ const routes = [
     {
         path: '/profile/info',
         component: UserInfo
+    },
+    {
+        path: '/practise/operation',
+        component: Operation
+    },
+    {
+        path: '/practise/selection',
+        component: Selection
+    },
+    {
+        path: '/practise/operation/single',
+        component: OperationSingle
     }
 ];
 const router = new Router({
