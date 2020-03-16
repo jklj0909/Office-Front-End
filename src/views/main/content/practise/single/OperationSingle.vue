@@ -66,23 +66,41 @@
                 isOk: false
             }
         },
+        created() {
+            this.$store.commit("updateBreadcrumbItems", ['练习', '操作题', '单题演练']);
+        },
         mounted() {
-            if (this.$route.query == null || this.$route.query == undefined) {
+            this.id = this.$route.params.id;
+            if (this.id == null || this.id == undefined) {
+                this.$Message.error("页面不存在");
                 this.$router.push("/practise/operation");
             }
-            this.title = this.$route.query.title;
-            this.description = this.$route.query.description;
-            this.id = this.$route.query.id;
-            this.questionType = this.$route.query.questionType;
-            if (this.questionType == "word") {
-                this.format = "docx";
-            } else if (this.questionType == "ppt") {
-                this.format = "pptx";
-            } else if (this.questionType == "excel") {
-                this.format = "xlsx";
-            }
+            this.checkIfExists();
         },
         methods: {
+            checkIfExists() {
+                request({
+                    url: '/operation/checkIfExists',
+                    method: 'get',
+                    params: {
+                        id: this.id
+                    }
+                }).then(({data}) => {
+                    this.title = data.title;
+                    this.description = data.description;
+                    this.questionType = data.questionType;
+                    if (this.questionType == "word") {
+                        this.format = "docx";
+                    } else if (this.questionType == "ppt") {
+                        this.format = "pptx";
+                    } else if (this.questionType == "excel") {
+                        this.format = "xlsx";
+                    }
+                }).catch(() => {
+                    this.$Message.error("页面不存在");
+                    this.$router.push("/practise/operation");
+                })
+            },
             onSuccess(response) {
                 this.$Message.success("上传成功");
                 this.isOk = true;
@@ -130,13 +148,16 @@
                 });
             },
             submitAnswer() {
+                this.$Spin.show();
                 request({
                     url: '/operation/submitAnswer/' + this.questionType + '/' + this.id,
                     method: 'post'
                 }).then(({data}) => {
+                    this.$Spin.hide();
                     this.$Message.success("成功");
-                    console.log(data);
+                    this.$router.push("/practise/answer/single/" + data.message);
                 }).catch(({response}) => {
+                    this.$Spin.hide();
                     if (response.data.message != null && response.data.message != undefined) {
                         this.$Message.error(response.data.message);
                     } else {

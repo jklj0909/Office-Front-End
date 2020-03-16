@@ -173,13 +173,7 @@
                     this.getQuestionInfoByPage();
                 }
                 this.$router.push({
-                    path: '/practise/operation/single',
-                    query: {
-                        id: row.id,
-                        description: row.description,
-                        title: row.title,
-                        questionType: row.questionType,
-                    }
+                    path: '/practise/operation/single/' + row.id,
                 })
             }
         }

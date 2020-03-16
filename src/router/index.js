@@ -13,6 +13,7 @@ const UserInfo = () => import('views/main/content/user/UserInfo');
 const Operation = () => import('views/main/content/practise/Operation');
 const Selection = () => import('views/main/content/practise/Selection');
 const OperationSingle = () => import('views/main/content/practise/single/OperationSingle');
+const AnswerSingle = () => import('views/main/content/practise/single/AnswerSingle');
 Vue.use(Router);
 
 const routes = [
@@ -45,8 +46,12 @@ const routes = [
         component: Selection
     },
     {
-        path: '/practise/operation/single',
+        path: '/practise/operation/single/:id',
         component: OperationSingle
+    },
+    {
+        path: '/practise/answer/single/:studentQid',
+        component: AnswerSingle
     }
 ];
 const router = new Router({

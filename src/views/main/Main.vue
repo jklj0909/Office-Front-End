@@ -23,7 +23,7 @@
             <Layout>
                 <!--左侧列表-->
                 <Sider hide-trigger :style="{background: '#fff'}">
-                    <Menu theme="light" width="auto">
+                    <Menu theme="light" width="auto" :accordion="true">
                         <Submenu :name="item.name" v-for="(item,index) in slider" :key="index"
                                  v-show="$store.state.user.isLogin==true||item.requireLogin==false">
                             <template slot="title">
