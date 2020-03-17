@@ -76,7 +76,8 @@
                         requireLogin: false
                     },
                     {
-                        childList: [{name: 'selection', content: '选择题', requireLogin: true, link: '/practise/selection'},
+                        childList: [{name: 'myPractise', content: '练习记录', requireLogin: true, link: '/practise/my'},
+                            {name: 'selection', content: '选择题', requireLogin: true, link: '/practise/selection'},
                             {name: 'operation', content: '操作题', requireLogin: true, link: '/practise/operation'}],
                         iconType: 'md-create',
                         content: '练习',

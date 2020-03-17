@@ -14,6 +14,8 @@ const Operation = () => import('views/main/content/practise/Operation');
 const Selection = () => import('views/main/content/practise/Selection');
 const OperationSingle = () => import('views/main/content/practise/single/OperationSingle');
 const AnswerSingle = () => import('views/main/content/practise/single/AnswerSingle');
+const MyPractise = () => import('views/main/content/practise/MyPractise');
+const TestResult = () => import('views/main/content/practise/record/TestResult');
 Vue.use(Router);
 
 const routes = [
@@ -46,13 +48,21 @@ const routes = [
         component: Selection
     },
     {
+        path: '/practise/my',
+        component: MyPractise
+    },
+    {
         path: '/practise/operation/single/:id',
         component: OperationSingle
     },
     {
         path: '/practise/answer/single/:studentQid',
         component: AnswerSingle
-    }
+    },
+    {
+        path: '/practise/record/test/:id',
+        component: TestResult
+    },
 ];
 const router = new Router({
     mode: 'history',

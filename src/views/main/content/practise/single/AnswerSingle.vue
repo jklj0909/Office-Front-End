@@ -85,7 +85,7 @@
                 })
             },
             goBack() {
-                this.$router.push("/practise/operation");
+                this.$router.push("/practise/my");
             },
             downloadFile(step) {
                 let filename = "";

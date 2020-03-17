@@ -98,7 +98,7 @@
                             return h('div', [
                                 h('Button', {
                                     props: {
-                                        type: 'success',
+                                        type: 'primary',
                                         size: 'small'
                                     },
                                     style: {
