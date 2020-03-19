@@ -21,7 +21,7 @@ Vue.use(Router);
 const routes = [
     {
         path: '',
-        redirect: '/index'
+        redirect: '/profile/login'
     },
     {
         path: '/index',

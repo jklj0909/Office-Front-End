@@ -1,17 +1,28 @@
 <template>
-    <div>
-        TestResult
+    <div style="width: 700px">
+        <div v-for="(selection,index) in selectionList" :index="index">
+            <select-question :id="index+1" :stuAnswer="selectionAnswer[index]" :answer="selection.answer"
+            :options="selection.questionOptions.split('&')" :title="selection.title" :score="selectionScore[index]"/>
+            <Divider size="small"/>
+        </div>
     </div>
 </template>
 
 <script>
     import {request} from 'network/student';
+    import SelectQuestion from 'components/content/main/inner/SelectQuestion';
 
     export default {
         name: "TestResult",
+        components: {
+            SelectQuestion
+        },
         data() {
             return {
-                id: ""
+                id: "",
+                selectionAnswer: [],
+                selectionScore: [],
+                selectionList: []
             }
         },
         created() {
@@ -25,7 +36,9 @@
                     url: '/record/getTestResult/' + this.id,
                     method: 'get'
                 }).then(({data}) => {
-                    console.log(data);
+                    this.selectionAnswer = data.selectionAnswer;
+                    this.selectionScore = data.selectionScore;
+                    this.selectionList = data.selectionList;
                 }).catch(() => {
                     this.$Message.error("获取数据失败,请返回重试");
                 });
